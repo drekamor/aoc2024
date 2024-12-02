@@ -1,12 +1,12 @@
 import pandas as pd
 
-# input = pd.read_csv('input.txt',sep=' ', usecols=['l1','l2'], converters={'file': str})
+# input = pd.read_csv('input.in',sep=' ', usecols=['l1','l2'], converters={'file': str})
 
-# input.sort_values(by=['l1'], ascending=True).to_csv('list1.txt', sep=' ', columns={'l1'}, index=False)
-# input.sort_values(by=['l2'], ascending=True).to_csv('list2.txt', sep=' ', columns={'l2'}, index=False)
+# input.sort_values(by=['l1'], ascending=True).to_csv('list1.in', sep=' ', columns={'l1'}, index=False)
+# input.sort_values(by=['l2'], ascending=True).to_csv('list2.in', sep=' ', columns={'l2'}, index=False)
 
-l1 = pd.read_csv('list1.txt',sep=' ', usecols=['l1'])
-l2 = pd.read_csv('list2.txt',sep=' ', usecols=['l2'])
+l1 = pd.read_csv('list1.in',sep=' ', usecols=['l1'])
+l2 = pd.read_csv('list2.in',sep=' ', usecols=['l2'])
 
 diff = 0
 score = 0

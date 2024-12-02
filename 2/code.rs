@@ -2,7 +2,7 @@ use std::fs::File;
 use std::io::{self, prelude::*, BufReader};
 
 fn main() -> io::Result<()> {
-    let file = File::open("input.txt")?;
+    let file = File::open("input.in")?;
     let reader = BufReader::new(file);
 
     let mut count: i32 = 0;
