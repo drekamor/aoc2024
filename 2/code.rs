@@ -29,9 +29,7 @@ fn main() -> io::Result<()> {
 fn safe(nums: &mut Vec<i32>) -> bool {
     let mut prev: i32 = -1;
     let mut mode: i32 = -1;
-    for int in nums.iter_mut() {
-        if !safe {continue};
-
+    for int in nums.iter() {
         if prev == -1 {
             prev = *int;
             continue;
