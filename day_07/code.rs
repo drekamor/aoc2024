@@ -3,17 +3,19 @@ use std::fs::read_to_string;
 fn main() {
     let lines: Vec<String> = read_lines("input.in");
 
-    let mut c: i64 = 0;
+    let mut c_p1: i64 = 0;
+    let mut c_p2: i64 = 0;
 
     for line in lines {
         let (value, nums) = parse(line);
-        if check(&value, nums) { c += value; }
+        if check_p1(&value, &nums) { c_p1 += value; } 
+        if check_p2(&value, &nums) { c_p2 += value; }
     }
 
-    println!("{}", c);
+    println!("P1: {}; P2: {}", c_p1, c_p2);
 }
 
-fn check(value: &i64, nums: Vec<i64>) -> bool {
+fn check_p1(value: &i64, nums: &Vec<i64>) -> bool {
     for c in 0..=u16::MAX {
         let bits: [u16; 16] = get_bits(c);
 
@@ -23,6 +25,32 @@ fn check(value: &i64, nums: Vec<i64>) -> bool {
                 total += nums[i];
             } else {
                 total *= nums[i];
+            }
+        }
+
+        if total == *value {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+fn check_p2(value: &i64, nums: &Vec<i64>) -> bool {
+    for c in 0..3_u64.pow(12) {
+        let ter: [u64; 12] = get_ternary(c);
+
+        let mut total: i64 = nums[0];
+        for i in 1..nums.len() {
+            if ter[i] == 0 {
+                total += nums[i];
+            } else if ter[i] == 1 {
+                total *= nums[i];
+            } else {
+                let n = nums[i];
+                let d = (n.abs() as f64 + 0.1).log10().ceil() as u32;
+                total *= 10_i64.pow(d); 
+                total += nums[i];
             }
         }
 
@@ -64,12 +92,22 @@ fn parse(string: String) -> (i64, Vec<i64>) {
     return (test_value, numbers);
 }
 
+fn get_ternary(mut num: u64) -> [u64; 12] {
+    let mut ter = [0u64; 12];
+    for i in 0..12 {
+        ter[i] = num % 3;
+        num /= 3;
+    }
+
+    return ter;
+}
+
 fn get_bits(byte: u16) -> [u16; 16] {
     let mut bits = [0u16; 16];
     for i in 0..16 {
         let shifted_byte = byte >> i;
         let cur_bit = shifted_byte & 1;
-        bits[15 - i] = cur_bit;
+        bits[i] = cur_bit;
     }
     return bits;
 }
