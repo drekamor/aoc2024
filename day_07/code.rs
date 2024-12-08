@@ -1,7 +1,7 @@
 use std::fs::read_to_string;
 
 fn main() {
-    let lines: Vec<String> = read_lines("input.in");
+    let lines: Vec<String> = read_lines("input2.in");
 
     let mut c_p1: i64 = 0;
     let mut c_p2: i64 = 0;
@@ -9,7 +9,7 @@ fn main() {
     for line in lines {
         let (value, nums) = parse(line);
         if check_p1(&value, &nums) { c_p1 += value; } 
-        if check_p2(&value, &nums) { c_p2 += value; }
+        //if check_p2(&value, &nums) { c_p2 += value; }
     }
 
     println!("P1: {}; P2: {}", c_p1, c_p2);
