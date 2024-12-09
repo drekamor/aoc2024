@@ -77,7 +77,7 @@ fn part_2() {
         'outter: for i in (0..map.len()).rev() {
             if map[i].id == id {
                 for j in 0..i {
-                    if map[j].id == -1 && map[j].num >= map[i].num * (map[i].id.abs() as f64 + 0.1).log10().ceil() as u32 {
+                    if map[j].id == -1 && map[j].num >= map[i].num {
                         let temp: File = map[i].clone();
                         let mut size: u32 = 0;
                         if i < map.len() - 1 && map[i + 1].id == -1 {
@@ -93,16 +93,16 @@ fn part_2() {
                         }
 
                         if rem {
-                            map[i-1] = File { num: size + temp.num * (temp.id.abs() as f64 + 0.1).log10().ceil() as u32 , id: -1};
+                            map[i-1] = File { num: size + temp.num, id: -1};
                         } else {
-                            map[i] = File { num: size + temp.num * (temp.id.abs() as f64 + 0.1).log10().ceil() as u32 , id: -1}; 
+                            map[i] = File { num: size + temp.num, id: -1}; 
                         }
 
                         size = map[j].num;
                         map[j] = temp.clone();
 
-                        if size > temp.num * (temp.id.abs() as f64 + 0.1).log10().ceil() as u32 { 
-                            size -= temp.num * (temp.id.abs() as f64 + 0.1).log10().ceil() as u32;
+                        if size > temp.num { 
+                            size -= temp.num;
                             map.splice((j+1)..(j+1), vec![ File { num: size, id: -1 } ]);
                         }
                         break 'outter;
@@ -113,25 +113,21 @@ fn part_2() {
         id -= 1;
     }
     
+    let mut vec: Vec<i64> = vec![];
     let mut checksum: i64 = 0;
 
-    let mut str: String = "".to_string();
 
     for i in &map {
         for _j in 0..i.num {
-            if i.id != -1 { str.push_str(&i.id.to_string()) } else { str.push_str(&".".to_string()) };
+            if i.id != -1 { vec.push(i.id as i64); } else { vec.push(-1) };
         }
     }
 
-    for i in 0..str.len() {
-        println!("{} / {}", i, str.len());
-        let ch: char = get_char(&str, i);
-        if ch != '.' {
-            checksum += (ch.to_digit(10).unwrap() as i64) * (i as i64)
-        }
+    for i in 0..vec.len() {
+        if vec[i] == -1 { continue };
+        checksum += vec[i] * i as i64;
+        println!("{} / {}", i, vec.len());
     }
-
-    print(&map);
 
     println!("{}", checksum);
 }
