@@ -11,16 +11,18 @@ struct Node {
 fn main() {
     let lines: Vec<String> = read_lines("input.in");
 
-    let mut count: u32 = 0;
+    let mut count_p1: u32 = 0;
+    let mut count_p2: u32 = 0;
 
     for i in 0..lines.len() {
         for j in 0..lines[i].len() {
             if parse_char(&lines[i], j) == 0 {
-                count += count_distinct_trails(&lines, Node { val: 0, i: i, j: j});
+                count_p1 += count_trails(&lines, Node { val: 0, i: i, j: j});
+                count_p2 += count_distinct_trails(&lines, Node { val: 0, i: i, j: j});
             }
         }
     }
-    println!("{}", count);
+    println!("P1: {}; P2: {}", count_p1, count_p2);
 }
 
 fn count_trails(map: &Vec<String>, head: Node) -> u32 {
@@ -61,14 +63,12 @@ fn count_trails(map: &Vec<String>, head: Node) -> u32 {
     }
 
     let mut count: u32 = 0;
-    println!("{:?}", nodes);
 
     for node in nodes {
         if node.val == 9 {
             count += 1;
         }
     }
-    println!("{}", count);
     return count;
 }
 
@@ -110,14 +110,12 @@ fn count_distinct_trails(map: &Vec<String>, head: Node) -> u32 {
     }
 
     let mut count: u32 = 0;
-    println!("{:?}", nodes);
 
     for node in nodes {
         if node.val == 9 {
             count += 1;
         }
     }
-    println!("{}", count);
     return count;
 }
 
