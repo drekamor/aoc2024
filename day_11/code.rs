@@ -37,15 +37,34 @@ fn main() {
         }
         line = temp.clone();
     }
+    
+    let mut time_cache: HashMap<i64, usize> = HashMap::new();
 
-    println!("{:?}", line.len());
+    let mut count: u128 = 0;
+
+    for j in 0..line.len() {
+            if time_cache.contains_key(&line[j]) {
+                count += *time_cache.get(&line[j]).unwrap() as u128;
+            } else { 
+                let run_j: Vec<i64> = if cache.contains_key(&line[j]) { cache.get(&line[j]).unwrap().to_vec() } else { run(line[j]) };
+                let mut c: usize = 0;
+                for k in 0..run_j.len() {
+                    c += if cache.contains_key(&run_j[k]) { cache.get(&run_j[k]).unwrap().len() } else { run(run_j[k]).len() };
+                }
+                count += c as u128;
+                time_cache.insert(line[j], c);
+            }
+            println!("{} / {}", j, line.len());
+        }
+
+    println!("{}", count);
 }
 
 fn run(n: i64) -> Vec<i64> {
     let mut line: Vec<i64> = vec![n];
     let mut j: usize = 0;
     let mut len: usize = line.len();
-    for _i in 0..20 {
+    for _i in 0..15 {
         while j < len {
             if line[j] == 0 { line[j] = 1; j += 1; continue };
 
