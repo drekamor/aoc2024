@@ -32,7 +32,6 @@ fn main() {
                 let mut res: Vec<i64> = run(line[j]);
                 cache.insert(line[j], res.clone());
                 temp.append(&mut res);
-                println!("{}", cache.len());
             }
         }
         line = temp.clone();
@@ -54,7 +53,6 @@ fn main() {
                 count += c as u128;
                 time_cache.insert(line[j], c);
             }
-            println!("{} / {}", j, line.len());
         }
 
     println!("{}", count);
